@@ -1,10 +1,8 @@
 package com.example.rockpaperscissors.controller;
 
-import com.example.rockpaperscissors.model.Choice;
-import com.example.rockpaperscissors.model.Game;
-import com.example.rockpaperscissors.model.Result;
-import com.example.rockpaperscissors.model.Round;
+import com.example.rockpaperscissors.model.*;
 import com.example.rockpaperscissors.service.RoundService;
+import com.example.rockpaperscissors.service.StatisticService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +20,9 @@ class RoundControllerTest {
 
     @Mock
     private RoundService roundService;
+
+    @Mock
+    private StatisticService statisticService;
 
     @InjectMocks
     private RoundController roundController;
@@ -53,6 +54,17 @@ class RoundControllerTest {
         Game game = roundController.newGame();
         Game actual = roundController.playRound(game.getGameId());
         Assertions.assertEquals(List.of(new Round(Choice.ROCK, Choice.PAPER, Result.SECOND_PLAYER_WIN)), actual.getRounds());
+    }
+
+    @Test
+    void testGetStatistic(){
+        Statistic statistic = new Statistic(1L, 1L, 0L, 0L);
+        Game game = roundController.newGame();
+        when(roundService.playRound()).thenReturn(new Round(Choice.ROCK, Choice.PAPER, Result.SECOND_PLAYER_WIN));
+        when(statisticService.getStatistic()).thenReturn(new Statistic(1L, 1L, 0L, 0L));
+        Game playedGame = roundController.playRound(game.getGameId());
+        Statistic actual = roundController.getStatistic();
+        Assertions.assertEquals(statistic, actual);
     }
 
 }
