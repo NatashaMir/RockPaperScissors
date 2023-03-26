@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Statistic {
 
-    private Long totalRound;
-    private Long firstPlayerWinsCount;
-    private Long secondPlayerWinsCount;
-    private Long drawCount;
+    private long totalRound;
+    private long firstPlayerWinsCount;
+    private long secondPlayerWinsCount;
+    private long drawCount;
 
 }

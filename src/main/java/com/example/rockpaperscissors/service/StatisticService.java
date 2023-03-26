@@ -8,5 +8,4 @@ public interface StatisticService {
     void addStatistic(Result result);
 
     Statistic getStatistic();
-
 }
