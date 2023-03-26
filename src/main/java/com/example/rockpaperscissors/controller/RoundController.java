@@ -1,26 +1,39 @@
 package com.example.rockpaperscissors.controller;
 
 import com.example.rockpaperscissors.model.Game;
-import org.springframework.stereotype.Controller;
+import com.example.rockpaperscissors.service.RoundService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Controller
+@RestController
 public class RoundController {
+
+    private final RoundService roundService;
 
     private final AtomicLong nextGameId = new AtomicLong(1);
     private final Map<Long,Game> gamesMap = new HashMap<>();
 
-    @GetMapping("/restart")
+    public RoundController(RoundService roundService) {
+        this.roundService = roundService;
+    }
+
+    @GetMapping(value = "/restart")
     public Game newGame() {
-        final Game game = new Game(nextGameId.getAndIncrement(), Collections.emptyList());
+        final Game game = new Game(nextGameId.getAndIncrement(), new ArrayList<>());
         gamesMap.put(game.getGameId(), game);
         return game;
     }
 
-
+    @GetMapping(value = "/play/{gameId}")
+    public Game playRound(@PathVariable Long gameId) {
+        final Game game = gamesMap.get(gameId);
+        game.getRounds().add(roundService.playRound());
+        return game;
+    }
 }
