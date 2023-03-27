@@ -4,24 +4,22 @@ import com.example.rockpaperscissors.model.Choice;
 import com.example.rockpaperscissors.service.ChoiceService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ChoiceServiceRockTest {
 
     @Test
     void getChoice() {
+        //Given
         ChoiceService choiceService = new ChoiceServiceRock();
         int rockCount = 0;
+        //When
         for (int i = 0; i < 10000; i++) {
             final Choice choice = choiceService.getChoice();
             if (choice == Choice.ROCK) {
                 rockCount++;
             }
         }
+        //Then
         Assertions.assertEquals(10000, rockCount);
     }
 }

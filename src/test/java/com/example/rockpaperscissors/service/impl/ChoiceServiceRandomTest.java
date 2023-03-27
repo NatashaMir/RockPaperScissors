@@ -17,13 +17,17 @@ class ChoiceServiceRandomTest {
 
     @Test
     void testGetChoice_RandomResult() {
+        //When
         final Choice choice = choiceService.getChoice();
+        //Then
         Assertions.assertTrue(choiceList.contains(choice));
     }
 
     @Test
     void testGetChoice_RandomResultStatistic() {
+        //Given
         int rockCount = 0, scissorsCount = 0, paperCount = 0, countOther = 0;
+        //When
         for (int i = 0; i < 10000; i++){
             final Choice choice = choiceService.getChoice();
             if (choice == Choice.ROCK){
@@ -36,6 +40,7 @@ class ChoiceServiceRandomTest {
                 countOther++;
             }
         }
+        //Then
         Assertions.assertTrue(rockCount > 0 && paperCount > 0 && scissorsCount > 0);
         assertEquals(0, countOther);
         Assertions.assertTrue(Math.abs(rockCount - paperCount) < 500 && Math.abs(rockCount - scissorsCount) < 500);
