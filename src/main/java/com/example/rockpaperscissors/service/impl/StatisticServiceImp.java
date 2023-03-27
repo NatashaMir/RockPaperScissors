@@ -5,31 +5,35 @@ import com.example.rockpaperscissors.model.Statistic;
 import com.example.rockpaperscissors.service.StatisticService;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 @Service
 public class StatisticServiceImp implements StatisticService {
 
-    private long firstPlayerWinsCount = 0L;
-    private long secondPlayerWinsCount = 0L;
-    private long drawCount = 0L;
-    private long totalRound = 0L;
+    private final AtomicLong firstPlayerWinsCount = new AtomicLong(0);
+    private final AtomicLong secondPlayerWinsCount = new AtomicLong(0);
+    private final AtomicLong drawCount = new AtomicLong(0);
 
     @Override
-    public synchronized void addStatistic(Result result) {
-        totalRound++;
+    public void addStatistic(Result result) {
         if (result == Result.FIRST_PLAYER_WIN){
-            firstPlayerWinsCount++;
+            firstPlayerWinsCount.getAndIncrement();
         } else if (result == Result.SECOND_PLAYER_WIN){
-            secondPlayerWinsCount++;
+            secondPlayerWinsCount.getAndIncrement();
         } else if (result == Result.DRAW){
-            drawCount++;
+            drawCount.getAndIncrement();
         } else {
             throw new IllegalArgumentException("Invalid result type: " + result);
         }
     }
 
     @Override
-    public synchronized Statistic getStatistic() {
-        return new Statistic(totalRound, firstPlayerWinsCount, secondPlayerWinsCount, drawCount);
+    public Statistic getStatistic() {
+        long draws = drawCount.get();
+        long firstPlayerWins = firstPlayerWinsCount.get();
+        long secondPlayerWins = secondPlayerWinsCount.get();
+        long totalRound = draws + firstPlayerWins + secondPlayerWins;
+        return new Statistic(totalRound, firstPlayerWins, secondPlayerWins, draws);
     }
 
 }
