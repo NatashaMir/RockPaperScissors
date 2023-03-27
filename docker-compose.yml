@@ -1,0 +1,17 @@
+version: '3.0'
+
+networks:
+  rps-network-compose:
+
+services:
+  rock-paper-scissors:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rock-paper-scissors
+    container_name: rock-paper-scissors
+    ports:
+      - '8082:8082'
+    restart: always
+    networks:
+      - rps-network-compose
