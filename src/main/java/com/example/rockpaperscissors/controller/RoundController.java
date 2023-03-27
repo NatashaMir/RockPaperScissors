@@ -21,7 +21,7 @@ public class RoundController {
     private final StatisticService statisticService;
 
     private final AtomicLong nextGameId = new AtomicLong(1);
-    private final Map<Long,Game> gamesMap = new ConcurrentHashMap<>();
+    private final Map<Long, Game> gamesMap = new ConcurrentHashMap<>();
 
     public RoundController(RoundService roundService, StatisticService statisticService) {
         this.roundService = roundService;
@@ -38,16 +38,15 @@ public class RoundController {
     @GetMapping(value = "/play/{gameId}")
     public Game playRound(@PathVariable Long gameId) {
         final Game game = gamesMap.get(gameId);
-        synchronized (game) {
-            final Round newRound = roundService.playRound();
-            game.getRounds().add(newRound);
-            statisticService.addStatistic(newRound.getGameResult());
-        }
+        final Round newRound = roundService.playRound();
+        game.addRound(newRound);
+        statisticService.addStatistic(newRound.getGameResult());
         return game;
     }
 
     @GetMapping(value = "/statistic")
-    public Statistic getStatistic(){
+    public Statistic getStatistic() {
         return statisticService.getStatistic();
     }
+
 }
