@@ -38,3 +38,23 @@ docker compose up --detach
 ```
 http://localhost:8082/swagger-ui/index.html
 ```
+To run frontend:
+1. Clone the repo locally:
+
+```
+https://gitlab.com/nataliia.mirosh/rockpaperscissors-ui.git
+```
+or
+```
+git@github.com:NatashaMir/RockPaperScissors-UI.git
+```
+3. Open terminal (Command Prompt) and go to the project folder
+4. Run command
+```
+docker compose up --detach
+```
+5. Make sure that the container has started
+6. Open game page: http://localhost:3000/game
+
+At the page http://localhost:3000/game you can create new game and add new rounds.
+Page http://localhost:3000/statistic represents the total statistics for all rounds played.
