@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @OpenAPIDefinition(
 		info = @Info(
@@ -14,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 				contact = @Contact(name = "Nataliia", email = "nataliia.mirosh@hmail.com")
 		)
 )
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class RockPaperScissorsApplication {
 
 	public static void main(String[] args) {
